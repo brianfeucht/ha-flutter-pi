@@ -8,7 +8,7 @@ import 'screens/current_weather.dart';
 import 'tempest.dart';
 import 'package:provider/provider.dart';
 
-int screenPixels = 720;
+double screenPixels = 720;
 Tempest tempest = Tempest();
 
 void main() {
@@ -25,9 +25,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            body: Center(
+            body: Container(
+                width: screenPixels,
+                height: screenPixels,
+                color: Colors.amber[600],
                 child: Consumer<CurrentWeatherModel>(
                     builder: (context, weather, c) =>
-                        const CurrentWeatherWidget()))));
+                        CurrentWeatherWidget()))));
   }
 }
