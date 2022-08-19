@@ -47,7 +47,7 @@ class Tempest {
       case "rapid_wind":
         break;
       default:
-        print(message);
+      // print(message);
     }
   }
 }

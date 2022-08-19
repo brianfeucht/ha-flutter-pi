@@ -4,7 +4,7 @@ import 'dart:io';
 class ScreenDimmerModel extends ChangeNotifier {
   static const int offDmw = 0;
   static const int minDmw = 130667;
-  static const int maxDmw = 400000;
+  static const int maxDmw = 300000;
 
   int _currentDmw = minDmw;
 
@@ -12,10 +12,10 @@ class ScreenDimmerModel extends ChangeNotifier {
     return _currentDmw;
   }
 
-  void setValue(int value) async {
+  void setValue(int value) {
     _currentDmw = value;
 
-    await Process.run("pwm", ["19", "1000000", value.toString()]);
+    Process.run("pwm", ["19", "1000000", value.toString()]).ignore();
 
     notifyListeners();
   }

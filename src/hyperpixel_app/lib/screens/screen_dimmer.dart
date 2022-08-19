@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/screen_dimmer.dart';
 
 class ScreenDimmerWidget extends StatelessWidget {
-  ScreenDimmerWidget({super.key});
+  const ScreenDimmerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
