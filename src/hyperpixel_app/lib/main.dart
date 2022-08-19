@@ -3,15 +3,19 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:remote_flutter_app/models/current_weather.dart';
+import 'screens/current_weather.dart';
 import 'tempest.dart';
 import 'package:provider/provider.dart';
 
-int screenPixels = 720;
+double screenPixels = 720;
 Tempest tempest = Tempest();
 
 void main() {
   tempest.startListening();
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => tempest.currentWeather),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,11 +25,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            body: ChangeNotifierProvider(
-      create: (context) => tempest,
-      builder: (context, child) => Center(
-          child: Consumer<Tempest>(
-              builder: (context, t, c) => Text('Current: ${t.temprature} C'))),
-    )));
+            body: Container(
+                width: screenPixels,
+                height: screenPixels,
+                color: Colors.amber[600],
+                child: Consumer<CurrentWeatherModel>(
+                    builder: (context, weather, c) =>
+                        CurrentWeatherWidget()))));
   }
 }

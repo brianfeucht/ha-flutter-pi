@@ -3,16 +3,18 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import 'models/current_weather.dart';
+
 class Tempest extends ChangeNotifier {
   // the port used by this socket
   final int _port = 50222;
   // as singleton to maintain the connexion during the app life and be accessible everywhere
   static final Tempest _instance = Tempest._internal();
 
-  double temp = double.nan;
+  final CurrentWeatherModel _currentWeather = CurrentWeatherModel();
 
-  double get temprature {
-    return temp;
+  CurrentWeatherModel get currentWeather {
+    return _currentWeather;
   }
 
   factory Tempest() {
@@ -42,9 +44,7 @@ class Tempest extends ChangeNotifier {
 
     switch (stationObs["type"]) {
       case "obs_st":
-        List<dynamic> obs = stationObs["obs"];
-        temp = obs[0][7];
-        print("Temp is $temp C");
+        _currentWeather.update(stationObs["obs"][0]);
         break;
       case "device_status":
       case "hub_status":
