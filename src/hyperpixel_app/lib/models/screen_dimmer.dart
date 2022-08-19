@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
-import 'dart:io';
 
 class ScreenDimmerModel extends ChangeNotifier {
+  ScreenDimmerModel({this.onDimUpdate});
+
   static const int offDmw = 0;
   static const int minDmw = 130667;
   static const int maxDmw = 300000;
+
+  final Function(ScreenDimmerModel)? onDimUpdate;
 
   int _currentDmw = minDmw;
 
@@ -13,10 +16,11 @@ class ScreenDimmerModel extends ChangeNotifier {
   }
 
   void setValue(int value) {
-    _currentDmw = value;
+    if (_currentDmw != value) {
+      _currentDmw = value;
 
-    Process.run("pwm", ["19", "1000000", value.toString()]).ignore();
-
-    notifyListeners();
+      notifyListeners();
+      onDimUpdate!(this);
+    }
   }
 }

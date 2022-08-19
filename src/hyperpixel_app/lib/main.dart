@@ -17,7 +17,6 @@ HyperPixel hyperPixelScreen = HyperPixel();
 
 void main() async {
   tempest.startListening();
-  await hyperPixelScreen.initialize();
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => tempest.currentWeather),
