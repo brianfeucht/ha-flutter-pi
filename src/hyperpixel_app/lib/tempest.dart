@@ -1,11 +1,8 @@
 import 'dart:io';
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-
 import 'models/current_weather.dart';
 
-class Tempest extends ChangeNotifier {
+class Tempest {
   // the port used by this socket
   final int _port = 50222;
   // as singleton to maintain the connexion during the app life and be accessible everywhere
@@ -32,7 +29,6 @@ class Tempest extends ChangeNotifier {
           Datagram? dg = socket.receive();
           if (dg != null) {
             parseMessage(utf8.decode(dg.data));
-            notifyListeners();
           }
         }
       });
