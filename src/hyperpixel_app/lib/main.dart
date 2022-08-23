@@ -31,16 +31,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            body: Container(
-                width: screenPixels,
-                height: screenPixels,
-                color: Colors.amber[600],
-                child: Column(children: [
-                  Consumer<CurrentWeatherModel>(
-                      builder: (context, weather, c) => CurrentWeatherWidget()),
-                  Consumer<ScreenDimmerModel>(
-                      builder: (context, weather, c) =>
-                          const ScreenDimmerWidget()),
-                ]))));
+            body: GestureDetector(
+                onTap: () => hyperPixelScreen.resetTimeout(),
+                onTapCancel: () => hyperPixelScreen.resetTimeout(),
+                child: Container(
+                  width: screenPixels,
+                  height: screenPixels,
+                  color: Colors.amber[600],
+                  child: Column(children: [
+                    Consumer<CurrentWeatherModel>(
+                        builder: (context, weather, c) =>
+                            CurrentWeatherWidget()),
+                    Consumer<ScreenDimmerModel>(
+                        builder: (context, weather, c) =>
+                            const ScreenDimmerWidget()),
+                  ]),
+                ))));
   }
 }
