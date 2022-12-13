@@ -10,12 +10,17 @@ class ScreenDimmerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenDimmer = context.watch<ScreenDimmerModel>();
 
-    return Slider(
-        value: screenDimmer.dmw.toDouble(),
-        max: ScreenDimmerModel.maxDmw.toDouble(),
-        min: ScreenDimmerModel.minDmw.toDouble(),
-        onChanged: (value) {
-          screenDimmer.setValue(value.toInt());
-        });
+    return Card(
+        clipBehavior: Clip.antiAlias,
+        child: Column(children: [
+          const ListTile(title: Text('Screen Brightness')),
+          Slider(
+              value: screenDimmer.dmw.toDouble(),
+              max: ScreenDimmerModel.maxDmw.toDouble(),
+              min: ScreenDimmerModel.minDmw.toDouble(),
+              onChanged: (value) {
+                screenDimmer.setValue(value.toInt());
+              })
+        ]));
   }
 }

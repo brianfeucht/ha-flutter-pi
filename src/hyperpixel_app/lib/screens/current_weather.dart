@@ -31,6 +31,7 @@ class CurrentWeatherWidget extends StatelessWidget {
     return Card(
         clipBehavior: Clip.antiAlias,
         child: Column(children: [
+          const ListTile(title: Text('Outside')),
           ListTile(
             leading: const Icon(Icons.device_thermostat_rounded),
             title: Text(
