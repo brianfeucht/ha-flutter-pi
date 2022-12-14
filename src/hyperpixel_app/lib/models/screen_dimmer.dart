@@ -20,7 +20,10 @@ class ScreenDimmerModel extends ChangeNotifier {
       _currentDmw = value;
 
       notifyListeners();
-      onDimUpdate!(this);
+
+      if (onDimUpdate != null) {
+        onDimUpdate!(this);
+      }
     }
   }
 }

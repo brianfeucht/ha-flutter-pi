@@ -27,7 +27,10 @@ class ThermostatSettingsModel extends ChangeNotifier {
     _setTemp = newTemp;
 
     notifyListeners();
-    onNewTempUpdate!(this);
+
+    if (onNewTempUpdate != null) {
+      onNewTempUpdate!(this);
+    }
   }
 
   void receiveValuesFromUnit(

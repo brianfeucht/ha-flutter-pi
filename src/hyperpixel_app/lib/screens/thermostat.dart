@@ -11,13 +11,29 @@ class ThermostatWidget extends StatelessWidget {
     return Card(
         clipBehavior: Clip.antiAlias,
         child: Column(children: [
-          const ListTile(title: Text('Inside')),
-          ListTile(
-              leading: Icon(Icons.waves, color: colorFromMode(thermostat.mode)),
-              title: Text('Currently: ${thermostat.currentTemp}°F')),
-          ListTile(
-              title: Text(
-                  'Set to: ${thermostat.setTemp}°F ${stringFromMode(thermostat.mode)}'))
+          const Text('Inside'),
+          Row(
+            children: [
+              Icon(Icons.waves, color: colorFromMode(thermostat.mode)),
+              Text('Currently: ${thermostat.currentTemp}°F'),
+              Text(
+                  'Set to: ${thermostat.setTemp}°F ${stringFromMode(thermostat.mode)}'),
+              Column(
+                children: [
+                  ElevatedButton(
+                    child: const Icon(Icons.arrow_upward),
+                    onPressed: () =>
+                        thermostat.setNewTemp(thermostat.setTemp + 1),
+                  ),
+                  ElevatedButton(
+                    child: const Icon(Icons.arrow_downward),
+                    onPressed: () =>
+                        thermostat.setNewTemp(thermostat.setTemp - 1),
+                  )
+                ],
+              )
+            ],
+          )
         ]));
   }
 
