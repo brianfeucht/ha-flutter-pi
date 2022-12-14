@@ -3,13 +3,14 @@ import 'package:flutter/foundation.dart';
 enum ThermostatMode { off, heating, cooling, fan }
 
 class ThermostatSettingsModel extends ChangeNotifier {
-  ThermostatSettingsModel({this.onNewTempUpdate});
+  ThermostatSettingsModel({this.onNewTempUpdate, this.onNewMode});
 
   int _currentTemp = 70;
   int _setTemp = 70;
   ThermostatMode _mode = ThermostatMode.off;
 
   final Function(ThermostatSettingsModel)? onNewTempUpdate;
+  final Function(ThermostatSettingsModel)? onNewMode;
 
   int get currentTemp {
     return _currentTemp;
@@ -30,6 +31,16 @@ class ThermostatSettingsModel extends ChangeNotifier {
 
     if (onNewTempUpdate != null) {
       onNewTempUpdate!(this);
+    }
+  }
+
+  void setNewMode(ThermostatMode mode) {
+    _mode = mode;
+
+    notifyListeners();
+
+    if (onNewMode != null) {
+      onNewMode!(this);
     }
   }
 
