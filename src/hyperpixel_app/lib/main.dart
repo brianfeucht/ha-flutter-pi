@@ -7,7 +7,10 @@ import 'package:remote_flutter_app/hyperpixel.dart';
 import 'package:remote_flutter_app/models/current_weather.dart';
 import 'package:remote_flutter_app/models/thermostat.dart';
 import 'package:remote_flutter_app/screens/thermostat.dart';
+import 'package:remote_flutter_app/screens/weather_forecast.dart';
 import 'package:remote_flutter_app/thermostat.dart';
+import 'package:remote_flutter_app/weather_forecast.dart';
+import 'models/weather_forecast.dart';
 import 'screens/current_weather.dart';
 import 'package:remote_flutter_app/models/screen_dimmer.dart';
 import 'package:remote_flutter_app/screens/screen_dimmer.dart';
@@ -18,14 +21,18 @@ double screenPixels = 720;
 Tempest tempest = Tempest();
 HyperPixel hyperPixelScreen = HyperPixel();
 Thermostat thermostat = Thermostat();
+WeatherForecast weatherForecast = WeatherForecast();
 
 void main() async {
   tempest.startListening();
+  weatherForecast.refreshForecast();
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => tempest.currentWeather),
     ChangeNotifierProvider(create: (context) => hyperPixelScreen.dimmerState),
     ChangeNotifierProvider(create: (context) => thermostat.currentSettings),
+    ChangeNotifierProvider(
+        create: (context) => weatherForecast.currentForecast),
   ], child: const MyApp()));
 }
 
@@ -51,12 +58,19 @@ class MyApp extends StatelessWidget {
                       toolbarHeight: 0),
                   body: TabBarView(children: [
                     Column(children: [
-                      Consumer<CurrentWeatherModel>(
-                          builder: (context, weather, c) =>
-                              CurrentWeatherWidget()),
                       Consumer<ThermostatSettingsModel>(
                           builder: (context, thermostatSettings, child) =>
                               const ThermostatWidget()),
+                      Row(
+                        children: [
+                          Consumer<CurrentWeatherModel>(
+                              builder: (context, weather, c) =>
+                                  const CurrentWeatherWidget()),
+                          Consumer<WeatherForecastModel>(
+                              builder: (context, weather, c) =>
+                                  const WeatherForecastWidget())
+                        ],
+                      )
                     ]),
                     Consumer<ScreenDimmerModel>(
                         builder: (context, weather, c) =>

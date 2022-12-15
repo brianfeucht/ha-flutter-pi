@@ -16,13 +16,17 @@ class ThermostatWidget extends StatelessWidget {
         child: Column(children: [
           Row(
             children: [
-              Column(children: [
-                Icon(iconFromMode(thermostat.mode),
-                    color: colorFromMode(thermostat.mode),
-                    size: setTempSize * 2),
-                Text('Mode: ${stringFromMode(thermostat.mode)}'),
-                Text('Currently: ${thermostat.currentTemp}°F'),
-              ]),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(iconFromMode(thermostat.mode),
+                        color: colorFromMode(thermostat.mode),
+                        size: setTempSize * 2),
+                    Text('Mode: ${stringFromMode(thermostat.mode)}'),
+                    Text('Currently: ${thermostat.currentTemp}°F'),
+                  ]),
               Expanded(
                 child: Text(
                   '${thermostat.setTemp}',
