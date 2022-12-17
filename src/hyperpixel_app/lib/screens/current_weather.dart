@@ -28,13 +28,13 @@ class CurrentWeatherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var currentWeather = context.watch<CurrentWeatherModel>();
-    return Flexible(
+    return SizedBox(
+        width: 250,
+        height: 142,
         child: Card(
             clipBehavior: Clip.antiAlias,
             child: Column(children: [
-              const ListTile(title: Text('Outside')),
               ListTile(
-                  leading: const Icon(Icons.device_thermostat_rounded),
                   title: Text(
                       '${convertToFriendlyString((currentWeather.temperature * 1.8000) + 32.00)}°F'),
                   subtitle: Column(
@@ -43,7 +43,8 @@ class CurrentWeatherWidget extends StatelessWidget {
                         Text(
                             'Humidity: ${convertToFriendlyString(currentWeather.humidity)}%'),
                         Text(
-                            'Dewpoint: ${convertToFriendlyString((currentWeather.dewPoint * 1.8000) + 32.00)}°F'),
+                          'Dewpoint: ${convertToFriendlyString((currentWeather.dewPoint * 1.8000) + 32.00)}°F',
+                        ),
                       ])),
               ListTile(
                   leading: const Icon(Icons.air_rounded),

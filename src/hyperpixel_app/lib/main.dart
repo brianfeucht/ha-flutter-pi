@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:remote_flutter_app/hyperpixel.dart';
 import 'package:remote_flutter_app/models/current_weather.dart';
@@ -10,6 +12,7 @@ import 'package:remote_flutter_app/screens/thermostat.dart';
 import 'package:remote_flutter_app/screens/weather_forecast.dart';
 import 'package:remote_flutter_app/thermostat.dart';
 import 'package:remote_flutter_app/weather_forecast.dart';
+import 'package:window_manager/window_manager.dart';
 import 'models/weather_forecast.dart';
 import 'screens/current_weather.dart';
 import 'package:remote_flutter_app/models/screen_dimmer.dart';
@@ -26,6 +29,12 @@ WeatherForecast weatherForecast = WeatherForecast();
 void main() async {
   tempest.startListening();
   weatherForecast.refreshForecast();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  if (Platform.isWindows) {
+    WindowManager.instance.setSize(const Size(720, 720));
+  }
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => tempest.currentWeather),

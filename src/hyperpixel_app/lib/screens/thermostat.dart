@@ -11,88 +11,93 @@ class ThermostatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var thermostat = context.watch<ThermostatSettingsModel>();
-    return Card(
-        clipBehavior: Clip.antiAlias,
-        child: Column(children: [
-          Row(
-            children: [
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(iconFromMode(thermostat.mode),
-                        color: colorFromMode(thermostat.mode),
-                        size: setTempSize * 2),
-                    Text('Mode: ${stringFromMode(thermostat.mode)}'),
-                    Text('Currently: ${thermostat.currentTemp}°F'),
-                  ]),
-              Expanded(
-                child: Text(
-                  '${thermostat.setTemp}',
-                  textScaleFactor: 8,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Column(
-                children: [
-                  OutlinedButton(
-                    child: const Icon(Icons.arrow_upward, size: setTempSize),
-                    onPressed: () =>
-                        thermostat.setNewTemp(thermostat.setTemp + 1),
+    return SizedBox(
+      width: 704,
+      height: 490,
+      child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(children: [
+            Row(
+              children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(iconFromMode(thermostat.mode),
+                          color: colorFromMode(thermostat.mode),
+                          size: setTempSize * 2),
+                      Text('Mode: ${stringFromMode(thermostat.mode)}'),
+                      Text('Currently: ${thermostat.currentTemp}°F'),
+                    ]),
+                Expanded(
+                  child: Text(
+                    '${thermostat.setTemp}',
+                    textScaleFactor: 8,
+                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 10),
-                  OutlinedButton(
-                    child: const Icon(Icons.arrow_downward, size: setTempSize),
-                    onPressed: () =>
-                        thermostat.setNewTemp(thermostat.setTemp - 1),
-                  )
-                ],
-              ),
-              const SizedBox(width: 10),
-              Column(
-                children: [
-                  OutlinedButton(
+                ),
+                Column(
+                  children: [
+                    OutlinedButton(
+                      child: const Icon(Icons.arrow_upward, size: setTempSize),
                       onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.heating),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.heating),
-                        color: colorFromMode(ThermostatMode.heating),
-                        size: setModeSize,
-                      )),
-                  const SizedBox(height: 10),
-                  OutlinedButton(
+                          thermostat.setNewTemp(thermostat.setTemp + 1),
+                    ),
+                    const SizedBox(height: 10),
+                    OutlinedButton(
+                      child:
+                          const Icon(Icons.arrow_downward, size: setTempSize),
                       onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.cooling),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.cooling),
-                        color: colorFromMode(ThermostatMode.cooling),
-                        size: setModeSize,
-                      )),
-                  const SizedBox(height: 10),
-                  OutlinedButton(
-                      onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.fan),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.fan),
-                        color: colorFromMode(ThermostatMode.fan),
-                        size: setModeSize,
-                      )),
-                  const SizedBox(height: 10),
-                  OutlinedButton(
-                      onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.off),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.off),
-                        color: colorFromMode(ThermostatMode.off),
-                        size: setModeSize,
-                      )),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(height: 10),
-        ]));
+                          thermostat.setNewTemp(thermostat.setTemp - 1),
+                    )
+                  ],
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  children: [
+                    OutlinedButton(
+                        onPressed: () =>
+                            thermostat.setNewMode(ThermostatMode.heating),
+                        child: Icon(
+                          iconFromMode(ThermostatMode.heating),
+                          color: colorFromMode(ThermostatMode.heating),
+                          size: setModeSize,
+                        )),
+                    const SizedBox(height: 10),
+                    OutlinedButton(
+                        onPressed: () =>
+                            thermostat.setNewMode(ThermostatMode.cooling),
+                        child: Icon(
+                          iconFromMode(ThermostatMode.cooling),
+                          color: colorFromMode(ThermostatMode.cooling),
+                          size: setModeSize,
+                        )),
+                    const SizedBox(height: 10),
+                    OutlinedButton(
+                        onPressed: () =>
+                            thermostat.setNewMode(ThermostatMode.fan),
+                        child: Icon(
+                          iconFromMode(ThermostatMode.fan),
+                          color: colorFromMode(ThermostatMode.fan),
+                          size: setModeSize,
+                        )),
+                    const SizedBox(height: 10),
+                    OutlinedButton(
+                        onPressed: () =>
+                            thermostat.setNewMode(ThermostatMode.off),
+                        child: Icon(
+                          iconFromMode(ThermostatMode.off),
+                          color: colorFromMode(ThermostatMode.off),
+                          size: setModeSize,
+                        )),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+          ])),
+    );
   }
 
   Color? colorFromMode(ThermostatMode mode) {
