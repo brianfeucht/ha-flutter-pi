@@ -7,7 +7,7 @@ import 'package:remote_flutter_app/models/weather_forecast.dart';
 class WeatherForecast {
   final WeatherForecastModel _currentForecast = WeatherForecastModel();
   late Timer updateForecastTimer =
-      Timer(const Duration(milliseconds: 10), () => retriveLatestForecast());
+      Timer(const Duration(minutes: 30), () => retriveLatestForecast());
 
   // Contains a auth token.  I don't really care, but lets not make it obvious
   static String parkdaleForecastUrl = utf8.decode(base64.decode(
