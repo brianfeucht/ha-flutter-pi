@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'dart:math';
 
-enum PrecipitationType { none, rain, hail }
-
 class CurrentWeatherModel extends ChangeNotifier {
   static const double msToMph = 2.2369362921;
 
@@ -13,8 +11,6 @@ class CurrentWeatherModel extends ChangeNotifier {
   int _windDirection = 0;
 
   double _humidity = double.nan;
-
-  PrecipitationType _precipitationType = PrecipitationType.none;
 
   double get temperature {
     return _temp;
@@ -43,18 +39,12 @@ class CurrentWeatherModel extends ChangeNotifier {
         (15.9 + 0.117 * _temp) * pow((1 - (0.01 * _humidity)), 14);
   }
 
-  PrecipitationType get precipitationType {
-    return _precipitationType;
-  }
-
   void update(List<dynamic> obs) {
     _windAverage = obs[2] * msToMph;
     _windGust = obs[3] * msToMph;
     _windDirection = obs[4];
     _temp = obs[7];
     _humidity = obs[8];
-
-    _precipitationType = PrecipitationType.values[obs[13]];
 
     notifyListeners();
   }

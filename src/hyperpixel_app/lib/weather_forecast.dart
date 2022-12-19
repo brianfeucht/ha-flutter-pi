@@ -1,5 +1,8 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:remote_flutter_app/models/weather_forecast.dart';
@@ -36,7 +39,9 @@ class WeatherForecast {
 
       _currentForecast.setDailyForecasts = dailyForecasts;
     } catch (e) {
-      print("Forecast retrieval failed ${e}");
+      if (kDebugMode) {
+        print("Forecast retrieval failed ${e}");
+      }
     }
   }
 }

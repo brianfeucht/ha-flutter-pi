@@ -48,12 +48,12 @@ enum PrecipType {
 
 class WeatherForcastDailyModel {
   final int _day;
-  int _month;
-  double _airTempHigh;
-  double _airTempLow;
-  int _precipProbability;
-  PrecipType _precipType;
-  ConditionIcon _conditionIcon;
+  final int _month;
+  final double _airTempHigh;
+  final double _airTempLow;
+  final int _precipProbability;
+  final PrecipType _precipType;
+  final ConditionIcon _conditionIcon;
 
   int get day {
     return _day;
