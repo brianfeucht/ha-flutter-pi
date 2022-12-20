@@ -26,5 +26,5 @@ jobs:
         tar -zcvf ../../remote_flutter_app.tar.gz build/flutter_assets
      - uses: actions/upload-artifact@v3
        with:
-         name: rasp-pi-build
+         name: rasp-pi-build.tar.gz
          path: remote_flutter_app.tar.gz
