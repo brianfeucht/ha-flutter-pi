@@ -1,0 +1,30 @@
+name: Flutter
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v3
+     - uses: subosito/flutter-action@v2
+       with:
+         flutter-version: '3.3.10'
+     - run: git config --global --add safe.directory /opt/hostedtoolcache/flutter/stable-3.3.10-x64
+     - run: |
+        wget -O /tmp/gen_snapshot_linux_x64_release "https://github.com/ardera/flutter-engine-binaries-for-arm/raw/engine_$(cat /opt/hostedtoolcache/flutter/stable-3.3.10-x64/bin/internal/engine.version)/arm/gen_snapshot_linux_x64_release"
+        chmod 755 /tmp/gen_snapshot_linux_x64_release
+     - run: |
+        cd src/hyperpixel_app
+        flutter build bundle
+        dart /opt/hostedtoolcache/flutter/stable-3.3.10-x64/bin/cache/dart-sdk/bin/snapshots/frontend_server.dart.snapshot --sdk-root /opt/hostedtoolcache/flutter/stable-3.3.10-x64/bin/cache/artifacts/engine/common/flutter_patched_sdk --target=flutter --aot --tfa -Ddart.vm.product=true --packages .dart_tool/package_config.json --output-dill build/kernel_snapshot.dill --verbose --depfile build/kernel_snapshot.d package:remote_flutter_app/main.dart
+        /tmp/gen_snapshot_linux_x64_release --deterministic --snapshot_kind=app-aot-elf --elf=build/flutter_assets/app.so --strip build/kernel_snapshot.dill
+        tar -zcvf ../../remote_flutter_app.tar.gz build/flutter_assets
+     - uses: actions/upload-artifact@v3
+       with:
+         name: rasp-pi-build
+         path: remote_flutter_app.tar.gz
