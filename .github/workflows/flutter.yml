@@ -18,6 +18,7 @@ jobs:
      - run: |
         wget -O /tmp/gen_snapshot_linux_x64_release "https://github.com/ardera/flutter-engine-binaries-for-arm/raw/engine_$(cat /opt/hostedtoolcache/flutter/stable-3.3.10-x64/bin/internal/engine.version)/arm64/gen_snapshot_linux_x64_release"
         chmod 755 /tmp/gen_snapshot_linux_x64_release
+     - run:  sed -i "s/\*\*DEV-BUILD\*\*/$GITHUB_SHA/" src/hyperpixel_app/lib/screens/settings.dart
      - run: |
         cd src/hyperpixel_app
         flutter build bundle

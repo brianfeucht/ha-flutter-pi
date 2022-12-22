@@ -16,7 +16,7 @@ import 'package:window_manager/window_manager.dart';
 import 'models/weather_forecast.dart';
 import 'screens/current_weather.dart';
 import 'package:remote_flutter_app/models/screen_dimmer.dart';
-import 'package:remote_flutter_app/screens/screen_dimmer.dart';
+import 'package:remote_flutter_app/screens/settings.dart';
 import 'tempest.dart';
 import 'package:provider/provider.dart';
 
@@ -70,22 +70,21 @@ class MyApp extends StatelessWidget {
                   body: TabBarView(children: [
                     Column(children: [
                       Consumer<ThermostatSettingsModel>(
-                          builder: (context, thermostatSettings, child) =>
+                          builder: (context, m, child) =>
                               const ThermostatWidget()),
                       Row(
                         children: [
                           Consumer<CurrentWeatherModel>(
-                              builder: (context, weather, c) =>
+                              builder: (context, m, c) =>
                                   const CurrentWeatherWidget()),
                           Consumer<WeatherForecastModel>(
-                              builder: (context, weather, c) =>
+                              builder: (context, m, c) =>
                                   const WeatherForecastWidget())
                         ],
                       )
                     ]),
                     Consumer<ScreenDimmerModel>(
-                        builder: (context, weather, c) =>
-                            const ScreenDimmerWidget()),
+                        builder: (context, m, c) => const SettingsWidget()),
                   ]),
                 ))));
   }

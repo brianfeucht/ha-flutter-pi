@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../models/screen_dimmer.dart';
 
-class ScreenDimmerWidget extends StatelessWidget {
-  const ScreenDimmerWidget({super.key});
+class SettingsWidget extends StatelessWidget {
+  const SettingsWidget({super.key});
+
+  static const String buildVer = "**DEV-BUILD**";
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class ScreenDimmerWidget extends StatelessWidget {
               }),
           Text("Pixel Ratio: ${windowMediaQuery.devicePixelRatio}"),
           Text("Window Size: ${windowMediaQuery.size}"),
+          const Text("Build Hash: $buildVer"),
         ]));
   }
 }
