@@ -9,6 +9,7 @@ class ScreenDimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenDimmer = context.watch<ScreenDimmerModel>();
+    var windowMediaQuery = MediaQuery.of(context);
 
     return Card(
         clipBehavior: Clip.antiAlias,
@@ -20,7 +21,9 @@ class ScreenDimmerWidget extends StatelessWidget {
               min: ScreenDimmerModel.minDmw.toDouble(),
               onChanged: (value) {
                 screenDimmer.setValue(value.toInt());
-              })
+              }),
+          Text("Pixel Ratio: ${windowMediaQuery.devicePixelRatio}"),
+          Text("Window Size: ${windowMediaQuery.size}"),
         ]));
   }
 }
