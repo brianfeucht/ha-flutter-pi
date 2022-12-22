@@ -79,16 +79,16 @@ class WeatherForcastDailyModel {
     return _precipType;
   }
 
-  String get precipTypeUnicode {
+  IconData? get precipTypeIcon {
     switch (_precipType) {
       case PrecipType.rain:
-        return "💧";
+        return WeatherIcons.raindrop;
       case PrecipType.snow:
-        return "❄";
+        return WeatherIcons.snowflake_cold;
       case PrecipType.sleet:
-        return "🧊";
+        return WeatherIcons.sleet;
       case PrecipType.storm:
-        return "⚡";
+        return WeatherIcons.lightning;
     }
   }
 

@@ -29,7 +29,7 @@ class CurrentWeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var currentWeather = context.watch<CurrentWeatherModel>();
     return SizedBox(
-        width: 250,
+        width: 240,
         height: 142,
         child: Card(
             clipBehavior: Clip.antiAlias,

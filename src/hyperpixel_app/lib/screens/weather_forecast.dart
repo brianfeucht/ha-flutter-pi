@@ -12,25 +12,54 @@ class WeatherForecastWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var forecast = context.watch<WeatherForecastModel>();
 
-    return Expanded(
+    return SizedBox(
+        width: 476,
+        height: 142,
         child: Card(
             child: Row(
-      children: forecast.dailyForecasts
-          .take(5)
-          .map<Widget>((df) => Expanded(
-                  child: Card(
-                      child: Expanded(
-                          child: Column(children: [
-                Text(toDayString(df)),
-                SizedBox(height: 40, child: Icon(df.conditionIcon)),
-                const SizedBox(height: verticalSpacing),
-                Text('${df.precipTypeUnicode}${df.precipProbability}%'),
-                const SizedBox(height: verticalSpacing),
-                Text('🠗${df.airTempLow.truncate()}°F'),
-                Text('🠕${df.airTempHigh.truncate()}°F'),
-              ])))))
-          .toList(),
-    )));
+          children: forecast.dailyForecasts
+              .take(5)
+              .map<Widget>((df) => Expanded(
+                      child: Card(
+                          child: Expanded(
+                              child: Column(children: [
+                    Text(toDayString(df)),
+                    SizedBox(height: 40, child: Icon(df.conditionIcon)),
+                    const SizedBox(height: verticalSpacing),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            df.precipTypeIcon,
+                            size: 12,
+                          ),
+                          Text('${df.precipProbability}%')
+                        ]),
+                    const SizedBox(height: verticalSpacing),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.arrow_downward,
+                          size: 12,
+                        ),
+                        Text('${df.airTempLow.truncate()}°F')
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.arrow_upward, size: 12),
+                        Text('${df.airTempHigh.truncate()}°F')
+                      ],
+                    ),
+                    const SizedBox(height: verticalSpacing),
+                  ])))))
+              .toList(),
+        )));
   }
 
   String toDayString(WeatherForcastDailyModel df) {
