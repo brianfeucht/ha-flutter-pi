@@ -12,7 +12,7 @@ class HyperPixel {
       onDimUpdate: (model) => _instance.setScreenBrightness(model.dmw));
 
   final RestartableTimer idleTimer = RestartableTimer(
-      const Duration(minutes: 2), () => {_instance.setScreenBrightness(0)});
+      const Duration(seconds: 30), () => {_instance.setScreenBrightness(0)});
 
   factory HyperPixel() {
     return _instance;
