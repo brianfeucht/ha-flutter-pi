@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: ThemeData(fontFamily: 'Droid Sans Mono for Powerline'),
         home: GestureDetector(
             onTap: () => hyperPixelScreen.resetTimeout(),
             onTapCancel: () => hyperPixelScreen.resetTimeout(),
