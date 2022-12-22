@@ -27,6 +27,7 @@ Thermostat thermostat = Thermostat();
 WeatherForecast weatherForecast = WeatherForecast();
 
 void main() async {
+  hyperPixelScreen.resetTimeout();
   tempest.startListening();
   weatherForecast.refreshForecast();
 
