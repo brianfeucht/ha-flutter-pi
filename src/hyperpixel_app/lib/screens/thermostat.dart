@@ -30,7 +30,7 @@ class ThermostatWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                         Icon(iconFromMode(thermostat.mode),
-                            color: colorFromMode(thermostat.mode), size: 200),
+                            color: colorFromMode(thermostat.mode), size: 125),
                         Text(stringFromMode(thermostat.mode))
                       ])),
                   Expanded(
@@ -40,7 +40,7 @@ class ThermostatWidget extends StatelessWidget {
                           children: [
                         Text(
                           '${thermostat.setTemp}',
-                          textScaleFactor: 14,
+                          textScaleFactor: 10,
                           textAlign: TextAlign.center,
                         ),
                         Text('Currently: ${thermostat.currentTemp}°F')
