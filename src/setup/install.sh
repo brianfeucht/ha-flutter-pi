@@ -22,3 +22,5 @@ wget -O pwm.c https://gitlab.com/anthonydigirolamo/rpi-hardware-pwm/-/raw/master
 gcc -Wall -pthread -o pwm pwm.c -lpigpio -lrt
 sudo cp pwm /usr/bin/pwm
 sudo chmod u+s /usr/bin/pwm
+
+sudo apt-get install jq
