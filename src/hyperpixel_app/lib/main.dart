@@ -31,8 +31,8 @@ void main() async {
   weatherForecast.refreshForecast();
 
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
   if (Platform.isWindows) {
+    await windowManager.ensureInitialized();
     WindowManager.instance.setSize(const Size(720, 720));
   }
 
