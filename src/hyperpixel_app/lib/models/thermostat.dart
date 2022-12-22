@@ -25,6 +25,10 @@ class ThermostatSettingsModel extends ChangeNotifier {
   }
 
   void setNewTemp(int newTemp) {
+    if (newTemp > 80 || newTemp < 55) {
+      return;
+    }
+
     _setTemp = newTemp;
 
     notifyListeners();
