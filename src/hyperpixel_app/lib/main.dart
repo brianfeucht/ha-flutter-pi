@@ -33,7 +33,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows) {
     await windowManager.ensureInitialized();
-    WindowManager.instance.setSize(const Size(720, 720));
+    await WindowManager.instance.setSize(const Size(737, 760));
   }
 
   runApp(MultiProvider(providers: [
