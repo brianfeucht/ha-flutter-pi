@@ -12,8 +12,8 @@ class ThermostatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var thermostat = context.watch<ThermostatSettingsModel>();
     return SizedBox(
-      width: 710,
-      height: 490,
+      width: 716,
+      height: 532,
       child: Card(
           clipBehavior: Clip.antiAlias,
           child: Column(

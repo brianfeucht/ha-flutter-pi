@@ -19,12 +19,11 @@ class WeatherForecastWidget extends StatelessWidget {
             child: Row(
           children: forecast.dailyForecasts
               .take(5)
-              .map<Widget>((df) => Expanded(
-                      child: Card(
-                          child: Expanded(
-                              child: Column(children: [
+              .map<Widget>((df) => Card(
+                      child: Column(children: [
                     Text(toDayString(df)),
-                    SizedBox(height: 40, child: Icon(df.conditionIcon)),
+                    SizedBox(
+                        height: 40, width: 85, child: Icon(df.conditionIcon)),
                     const SizedBox(height: verticalSpacing),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +56,7 @@ class WeatherForecastWidget extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: verticalSpacing),
-                  ])))))
+                  ])))
               .toList(),
         )));
   }

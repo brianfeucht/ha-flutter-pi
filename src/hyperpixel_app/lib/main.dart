@@ -68,21 +68,24 @@ class MyApp extends StatelessWidget {
                       ),
                       toolbarHeight: 0),
                   body: TabBarView(children: [
-                    Column(children: [
-                      Consumer<ThermostatSettingsModel>(
-                          builder: (context, m, child) =>
-                              const ThermostatWidget()),
-                      Row(
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Consumer<CurrentWeatherModel>(
-                              builder: (context, m, c) =>
-                                  const CurrentWeatherWidget()),
-                          Consumer<WeatherForecastModel>(
-                              builder: (context, m, c) =>
-                                  const WeatherForecastWidget())
-                        ],
-                      )
-                    ]),
+                          Consumer<ThermostatSettingsModel>(
+                              builder: (context, m, child) =>
+                                  const ThermostatWidget()),
+                          Row(
+                            children: [
+                              Consumer<CurrentWeatherModel>(
+                                  builder: (context, m, c) =>
+                                      const CurrentWeatherWidget()),
+                              Consumer<WeatherForecastModel>(
+                                  builder: (context, m, c) =>
+                                      const WeatherForecastWidget())
+                            ],
+                          )
+                        ]),
                     Consumer<ScreenDimmerModel>(
                         builder: (context, m, c) => const SettingsWidget()),
                   ]),
