@@ -26,14 +26,10 @@ class HyperPixel {
 
   void setScreenBrightness(int value) {
     Process.run("pwm", ["19", "1000000", value.toString()]).ignore();
-    idleTimer.reset();
   }
 
   void resetTimeout() {
-    if (!idleTimer.isActive) {
-      setScreenBrightness(_dimmerState.dmw);
-    }
-
+    setScreenBrightness(_dimmerState.dmw);
     idleTimer.reset();
   }
 }
