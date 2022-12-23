@@ -24,8 +24,12 @@ class HyperPixel {
     return _dimmerState;
   }
 
-  void setScreenBrightness(int value) {
-    Process.run("pwm", ["19", "1000000", value.toString()]).ignore();
+  Future<void> setScreenBrightness(int value) async {
+    try {
+      await Process.run("pwm", ["19", "1000000", value.toString()]);
+    } catch (e) {
+      stderr.writeln("pwm call failed $e");
+    }
   }
 
   void resetTimeout() {
