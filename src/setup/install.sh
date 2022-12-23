@@ -24,3 +24,12 @@ sudo cp pwm /usr/bin/pwm
 sudo chmod u+s /usr/bin/pwm
 
 sudo apt-get install jq
+
+wget -O ~/update-app.sh https://raw.githubusercontent.com/brianfeucht/ha-flutter-pi/main/src/setup/update-app.sh
+chmod 755 ~/update-app.sh
+echo "*/5 * * * * /home/pi/update-app.sh" | crontab
+/home/pi/update-app.sh
+
+wget -O ~/run.sh https://raw.githubusercontent.com/brianfeucht/ha-flutter-pi/main/src/setup/run.sh
+chmod 755 ~/run.sh
+echo ". /home/pi/run.sh -v 2>&1 | logger &" >> /etc/profile
