@@ -33,3 +33,6 @@ echo "*/5 * * * * /home/pi/update-app.sh" | crontab
 wget -O ~/run.sh https://raw.githubusercontent.com/brianfeucht/ha-flutter-pi/main/src/setup/run.sh
 chmod 755 ~/run.sh
 echo ". /home/pi/run.sh -v 2>&1 | logger &" >> /etc/profile
+
+sudo nano -w /boot/cmdline.txt
+append " ipv6.disable=1"
