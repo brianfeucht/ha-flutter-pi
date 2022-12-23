@@ -17,7 +17,7 @@ fi
 
 current_release=$(readlink -f /home/pi/current_release)
 
-if [ ! $current_release -ef '/home/pi/releases/$release_id' ]; then
+if [ ! $current_release -ef "/home/pi/releases/${release_id}" ]; then
   echo "Updating current_release symlink and restarting app";
   ln -sfn /home/pi/releases/$release_id /home/pi/current_release
   pkill flutter-pi
