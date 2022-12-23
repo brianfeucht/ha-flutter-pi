@@ -4,7 +4,7 @@ class ScreenDimmerModel extends ChangeNotifier {
   ScreenDimmerModel({this.onDimUpdate});
 
   static const int offDmw = 0;
-  static const int minDmw = 160000;
+  static const int minDmw = 180000;
   static const int maxDmw = 300000;
 
   final Function(ScreenDimmerModel)? onDimUpdate;
