@@ -124,6 +124,8 @@ class ThermostatWidget extends StatelessWidget {
         return const Color.fromRGBO(85, 85, 85, 1);
       case ThermostatMode.fan:
         return const Color.fromRGBO(0, 0, 0, 1);
+      default:
+        return const Color.fromRGBO(85, 85, 85, 1);
     }
   }
 
@@ -137,6 +139,10 @@ class ThermostatWidget extends StatelessWidget {
         return "Cooling";
       case ThermostatMode.fan:
         return "Fan only";
+      case ThermostatMode.dry:
+        return "Dry";
+      case ThermostatMode.auto:
+        return "Auto";
     }
   }
 
@@ -150,6 +156,10 @@ class ThermostatWidget extends StatelessWidget {
         return Icons.ac_unit;
       case ThermostatMode.fan:
         return Icons.air;
+      case ThermostatMode.dry:
+        return Icons.whatshot;
+      case ThermostatMode.auto:
+        return Icons.auto_awesome;
     }
   }
 }

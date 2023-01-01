@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-enum ThermostatMode { off, heating, cooling, fan }
+enum ThermostatMode { off, heating, cooling, fan, dry, auto }
 
 class ThermostatSettingsModel extends ChangeNotifier {
   ThermostatSettingsModel({this.onNewTempUpdate, this.onNewMode});
