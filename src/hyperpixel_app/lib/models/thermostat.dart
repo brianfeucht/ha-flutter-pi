@@ -1,16 +1,18 @@
 import 'package:flutter/foundation.dart';
 
-enum ThermostatMode { off, heating, cooling, fan, dry, auto }
+enum ThermostatMode { off, heating, cooling, fan, auto }
+
+enum FanSpeed { auto, quiet, one, two, three, four }
 
 class ThermostatSettingsModel extends ChangeNotifier {
-  ThermostatSettingsModel({this.onNewTempUpdate, this.onNewMode});
+  ThermostatSettingsModel({this.onModelUpdate});
 
   int _currentTemp = 70;
   int _setTemp = 70;
   ThermostatMode _mode = ThermostatMode.off;
+  FanSpeed _fanSpeed = FanSpeed.auto;
 
-  final Function(ThermostatSettingsModel)? onNewTempUpdate;
-  final Function(ThermostatSettingsModel)? onNewMode;
+  final Function(ThermostatSettingsModel)? onModelUpdate;
 
   int get currentTemp {
     return _currentTemp;
@@ -24,8 +26,12 @@ class ThermostatSettingsModel extends ChangeNotifier {
     return _mode;
   }
 
+  FanSpeed get fanSpeed {
+    return _fanSpeed;
+  }
+
   void setNewTemp(int newTemp) {
-    if (newTemp > 80 || newTemp < 55) {
+    if (newTemp > 80 || newTemp < 55 || newTemp == _setTemp) {
       return;
     }
 
@@ -33,26 +39,44 @@ class ThermostatSettingsModel extends ChangeNotifier {
 
     notifyListeners();
 
-    if (onNewTempUpdate != null) {
-      onNewTempUpdate!(this);
+    if (onModelUpdate != null) {
+      onModelUpdate!(this);
     }
   }
 
   void setNewMode(ThermostatMode mode) {
+    if (mode == _mode) {
+      return;
+    }
+
     _mode = mode;
 
     notifyListeners();
 
-    if (onNewMode != null) {
-      onNewMode!(this);
+    if (onModelUpdate != null) {
+      onModelUpdate!(this);
+    }
+  }
+
+  void setFanSpeed(FanSpeed fanSpeed) {
+    if (fanSpeed == _fanSpeed) {
+      return;
+    }
+    _fanSpeed = fanSpeed;
+
+    notifyListeners();
+
+    if (onModelUpdate != null) {
+      onModelUpdate!(this);
     }
   }
 
   void receiveValuesFromUnit(
-      int setTemp, int currentTemp, ThermostatMode mode) {
+      int setTemp, int currentTemp, ThermostatMode mode, FanSpeed fanSpeed) {
     _setTemp = setTemp;
     _currentTemp = currentTemp;
     _mode = mode;
+    _fanSpeed = fanSpeed;
 
     notifyListeners();
   }

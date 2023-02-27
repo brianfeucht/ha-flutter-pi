@@ -31,7 +31,10 @@ class ThermostatWidget extends StatelessWidget {
                           children: [
                         Icon(iconFromMode(thermostat.mode),
                             color: colorFromMode(thermostat.mode), size: 125),
-                        Text(stringFromMode(thermostat.mode))
+                        Text(stringFromMode(thermostat.mode)),
+                        const SizedBox(height: 50),
+                        const Text("Fan"),
+                        Text(textForFanSpeed(thermostat.fanSpeed)),
                       ])),
                   Expanded(
                       child: Column(
@@ -72,40 +75,18 @@ class ThermostatWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OutlinedButton(
-                      onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.heating),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.heating),
-                        color: colorFromMode(ThermostatMode.heating),
-                        size: setModeSize,
-                      )),
-                  const SizedBox(width: 20),
+                      child: Row(children: const [
+                        Icon(Icons.power, size: 50),
+                        Text(" Mode")
+                      ]),
+                      onPressed: () => switchMode(thermostat)),
+                  const SizedBox(width: 25),
                   OutlinedButton(
-                      onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.cooling),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.cooling),
-                        color: colorFromMode(ThermostatMode.cooling),
-                        size: setModeSize,
-                      )),
-                  const SizedBox(width: 20),
-                  OutlinedButton(
-                      onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.fan),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.fan),
-                        color: colorFromMode(ThermostatMode.fan),
-                        size: setModeSize,
-                      )),
-                  const SizedBox(width: 20),
-                  OutlinedButton(
-                      onPressed: () =>
-                          thermostat.setNewMode(ThermostatMode.off),
-                      child: Icon(
-                        iconFromMode(ThermostatMode.off),
-                        color: colorFromMode(ThermostatMode.off),
-                        size: setModeSize,
-                      )),
+                      child: Row(children: const [
+                        Icon(Icons.wind_power, size: 50),
+                        Text(" Fan")
+                      ]),
+                      onPressed: () => switchFan(thermostat)),
                 ],
               ),
               const SizedBox(height: 25),
@@ -139,8 +120,6 @@ class ThermostatWidget extends StatelessWidget {
         return "Cooling";
       case ThermostatMode.fan:
         return "Fan only";
-      case ThermostatMode.dry:
-        return "Dry";
       case ThermostatMode.auto:
         return "Auto";
     }
@@ -156,10 +135,37 @@ class ThermostatWidget extends StatelessWidget {
         return Icons.ac_unit;
       case ThermostatMode.fan:
         return Icons.air;
-      case ThermostatMode.dry:
-        return Icons.whatshot;
       case ThermostatMode.auto:
         return Icons.auto_awesome;
     }
+  }
+
+  String textForFanSpeed(FanSpeed fanSpeed) {
+    switch (fanSpeed) {
+      case FanSpeed.one:
+        return "Low";
+      case FanSpeed.two:
+        return "Two";
+      case FanSpeed.three:
+        return "Three";
+      case FanSpeed.four:
+        return "High";
+      case FanSpeed.quiet:
+        return "Quiet";
+      case FanSpeed.auto:
+        return "Auto";
+    }
+  }
+
+  switchFan(ThermostatSettingsModel thermostat) {
+    FanSpeed fanSpeed = thermostat.fanSpeed;
+    final nextIndex = (fanSpeed.index + 1) % FanSpeed.values.length;
+    thermostat.setFanSpeed(FanSpeed.values[nextIndex]);
+  }
+
+  switchMode(ThermostatSettingsModel thermostat) {
+    ThermostatMode mode = thermostat.mode;
+    final nextIndex = (mode.index + 1) % ThermostatMode.values.length;
+    thermostat.setNewMode(ThermostatMode.values[nextIndex]);
   }
 }
