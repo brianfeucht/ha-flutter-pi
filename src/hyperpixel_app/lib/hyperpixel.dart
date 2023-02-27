@@ -3,6 +3,7 @@ import 'package:remote_flutter_app/models/screen_dimmer.dart';
 import 'dart:io';
 
 class HyperPixel {
+  static const int dimBrightness = 180000;
   static const int dimmerPin = 19;
 
   // as singleton to maintain the connexion during the app life and be accessible everywhere
@@ -12,7 +13,8 @@ class HyperPixel {
       onDimUpdate: (model) => _instance.setScreenBrightness(model.dmw));
 
   final RestartableTimer idleTimer = RestartableTimer(
-      const Duration(seconds: 30), () => {_instance.setScreenBrightness(0)});
+      const Duration(seconds: 30),
+      () => {_instance.setScreenBrightness(dimBrightness)});
 
   factory HyperPixel() {
     return _instance;
