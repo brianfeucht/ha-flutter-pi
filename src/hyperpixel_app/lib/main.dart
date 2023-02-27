@@ -30,6 +30,7 @@ void main() async {
   hyperPixelScreen.resetTimeout();
   tempest.startListening();
   weatherForecast.refreshForecast();
+  thermostat.refreshThermostat();
 
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows) {
