@@ -26,7 +26,7 @@ class Thermostat {
 
   String get thermostatApiUrl {
     var localHostname = Platform.localHostname;
-    var thermostatName = "hvac-livingroom";
+    var thermostatName = "livingroom";
 
     if (localHostname.startsWith("remote-")) {
       thermostatName = localHostname.replaceFirst(RegExp("^remote-"), "");
@@ -162,8 +162,9 @@ class Thermostat {
       await setTargetTemp(_currentSettings.setTemp);
       //await setFanSpeed(_currentSettings.fanSpeed);
       await setMode(_currentSettings.mode);
-    });
 
-    await retriveLatestSettings();
+      await Future.delayed(const Duration(seconds: 2));
+      await retriveLatestSettings();
+    });
   }
 }
