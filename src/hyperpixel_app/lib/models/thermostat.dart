@@ -12,7 +12,7 @@ class ThermostatSettingsModel extends ChangeNotifier {
   ThermostatMode _mode = ThermostatMode.off;
   FanSpeed _fanSpeed = FanSpeed.auto;
 
-  final Function(ThermostatSettingsModel)? onModelUpdate;
+  void Function(ThermostatSettingsModel)? onModelUpdate;
 
   int get currentTemp {
     return _currentTemp;

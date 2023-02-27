@@ -32,9 +32,11 @@ class ThermostatWidget extends StatelessWidget {
                         Icon(iconFromMode(thermostat.mode),
                             color: colorFromMode(thermostat.mode), size: 125),
                         Text(stringFromMode(thermostat.mode)),
+/*
                         const SizedBox(height: 50),
                         const Text("Fan"),
                         Text(textForFanSpeed(thermostat.fanSpeed)),
+*/
                       ])),
                   Expanded(
                       child: Column(
@@ -80,13 +82,15 @@ class ThermostatWidget extends StatelessWidget {
                         Text(" Mode")
                       ]),
                       onPressed: () => switchMode(thermostat)),
-                  const SizedBox(width: 25),
+
+/*                  const SizedBox(width: 25),
                   OutlinedButton(
                       child: Row(children: const [
                         Icon(Icons.wind_power, size: 50),
                         Text(" Fan")
                       ]),
                       onPressed: () => switchFan(thermostat)),
+                      */
                 ],
               ),
               const SizedBox(height: 25),

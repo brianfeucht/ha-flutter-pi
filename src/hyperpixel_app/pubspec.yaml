@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.18.0
   weather_icons: ^3.0.0
   window_manager: ^0.2.8
+  mutex: ^3.0.1
 
 dev_dependencies:
   flutter_test:

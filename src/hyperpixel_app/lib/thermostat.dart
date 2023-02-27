@@ -2,14 +2,19 @@ import 'dart:async';
 import 'package:remote_flutter_app/models/thermostat.dart';
 import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
+import 'package:mutex/mutex.dart';
 
 class Thermostat {
   final ThermostatSettingsModel _currentSettings = ThermostatSettingsModel();
+  final updateMutex = Mutex();
 
   late Timer updateForecastTimer =
       Timer(const Duration(seconds: 15), () => retriveLatestSettings());
+
+  Thermostat() {
+    _currentSettings.onModelUpdate = sendNewSettings;
+  }
 
   void refreshThermostat() {
     Timer.run(() => retriveLatestSettings());
@@ -20,7 +25,7 @@ class Thermostat {
   }
 
   String get thermostatApiUrl {
-    var localHostname = "remote-livingroom.local" ?? Platform.localHostname;
+    var localHostname = Platform.localHostname;
     var thermostatName = "hvac-livingroom";
 
     if (localHostname.startsWith("remote-")) {
@@ -57,7 +62,7 @@ class Thermostat {
       case "HEAT":
         mode = ThermostatMode.heating;
         break;
-      case "FAN ONLY":
+      case "FAN_ONLY":
         mode = ThermostatMode.fan;
         break;
     }
@@ -86,5 +91,79 @@ class Thermostat {
 
     currentSettings.receiveValuesFromUnit(
         targetTemp, currentTemp, mode, fanSpeed);
+  }
+
+  Future<void> setTargetTemp(int targetTemp) async {
+    var tempC = (targetTemp - 32) / 1.8;
+    await http
+        .post(Uri.parse("${thermostatApiUrl}set?target_temperature=${tempC}"));
+  }
+
+  Future<void> setMode(ThermostatMode mode) async {
+    String urlMode = "OFF";
+
+    switch (mode) {
+      case ThermostatMode.off:
+        urlMode = "OFF";
+        break;
+      case ThermostatMode.auto:
+        urlMode = "HEAT_COOL";
+        break;
+      case ThermostatMode.cooling:
+        urlMode = "COOL";
+        break;
+      case ThermostatMode.heating:
+        urlMode = "HEAT";
+        break;
+      case ThermostatMode.fan:
+        urlMode = "FAN_ONLY";
+        break;
+    }
+
+    await http.post(Uri.parse("${thermostatApiUrl}set?mode=${urlMode}"));
+  }
+
+  Future<void> setFanSpeed(FanSpeed fanSpeed) async {
+    String urlSpeed = "AUTO";
+
+    switch (fanSpeed) {
+      case FanSpeed.auto:
+        urlSpeed = "AUTO";
+        break;
+      case FanSpeed.quiet:
+        urlSpeed = "DIFFUSE";
+        break;
+      case FanSpeed.one:
+        urlSpeed = "LOW";
+        break;
+      case FanSpeed.two:
+        urlSpeed = "MEDIUM";
+        break;
+      case FanSpeed.three:
+        urlSpeed = "MIDDLE";
+        break;
+      case FanSpeed.four:
+        urlSpeed = "HIGH";
+        break;
+    }
+
+    await http.post(Uri.parse("${thermostatApiUrl}set?fan_mode=${urlSpeed}"));
+  }
+
+  Future<void> sendNewSettings(ThermostatSettingsModel updatedSettings) async {
+    if (updateMutex.isLocked) {
+      return;
+    }
+
+    await updateMutex.protect(() async {
+      // Batch multiple button pushes into a set of single update commands
+      await Future.delayed(const Duration(seconds: 10));
+
+      await setTargetTemp(_currentSettings.setTemp);
+      //await setFanSpeed(_currentSettings.fanSpeed);
+      await setMode(_currentSettings.mode);
+    });
+
+    await retriveLatestSettings();
   }
 }
