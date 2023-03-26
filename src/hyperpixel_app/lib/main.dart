@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:remote_flutter_app/hyperpixel.dart';
 import 'package:remote_flutter_app/models/current_weather.dart';
+import 'package:remote_flutter_app/models/log.dart';
 import 'package:remote_flutter_app/models/thermostat.dart';
 import 'package:remote_flutter_app/screens/thermostat.dart';
 import 'package:remote_flutter_app/screens/weather_forecast.dart';
@@ -20,17 +21,23 @@ import 'package:remote_flutter_app/screens/settings.dart';
 import 'tempest.dart';
 import 'package:provider/provider.dart';
 
+const String buildVer = "**DEV-BUILD**";
+
 double screenPixels = 720;
+AppLog appLog = AppLog();
+
 Tempest tempest = Tempest();
-HyperPixel hyperPixelScreen = HyperPixel();
-Thermostat thermostat = Thermostat();
-WeatherForecast weatherForecast = WeatherForecast();
+HyperPixel hyperPixelScreen = HyperPixel(appLog);
+Thermostat thermostat = Thermostat(appLog);
+WeatherForecast weatherForecast = WeatherForecast(appLog);
 
 void main() async {
   hyperPixelScreen.resetTimeout();
   tempest.startListening();
   weatherForecast.refreshForecast();
   thermostat.refreshThermostat();
+
+  appLog.addLog("Build Hash: $buildVer");
 
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows) {
@@ -39,6 +46,7 @@ void main() async {
   }
 
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => appLog),
     ChangeNotifierProvider(create: (context) => tempest.currentWeather),
     ChangeNotifierProvider(create: (context) => hyperPixelScreen.dimmerState),
     ChangeNotifierProvider(create: (context) => thermostat.currentSettings),
@@ -87,8 +95,9 @@ class MyApp extends StatelessWidget {
                             ],
                           )
                         ]),
-                    Consumer<ScreenDimmerModel>(
-                        builder: (context, m, c) => const SettingsWidget()),
+                    Consumer2<ScreenDimmerModel, AppLog>(
+                        builder: (context, dim, log, w) =>
+                            const SettingsWidget()),
                   ]),
                 ))));
   }

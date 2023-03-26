@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:http/http.dart';
+import 'package:remote_flutter_app/models/log.dart';
 import 'package:remote_flutter_app/models/thermostat.dart';
 import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
@@ -12,7 +14,9 @@ class Thermostat {
   late Timer updateForecastTimer =
       Timer(const Duration(seconds: 15), () => retriveLatestSettings());
 
-  Thermostat() {
+  final AppLog _appLog;
+
+  Thermostat(AppLog appLog) : _appLog = appLog {
     _currentSettings.onModelUpdate = sendNewSettings;
   }
 
@@ -40,7 +44,15 @@ class Thermostat {
   }
 
   Future<void> retriveLatestSettings() async {
-    var res = await http.get(Uri.parse(thermostatApiUrl));
+    Response res;
+    try {
+      res = await http.get(Uri.parse(thermostatApiUrl));
+    } catch (e) {
+      _appLog.addLog("Unable to get settings at $thermostatApiUrl");
+      _appLog.addLog(e.toString());
+      return;
+    }
+
     dynamic resp = json.decode(res.body);
 
     var targetTemp =
@@ -96,7 +108,7 @@ class Thermostat {
   Future<void> setTargetTemp(int targetTemp) async {
     var tempC = (targetTemp - 32) / 1.8;
     await http
-        .post(Uri.parse("${thermostatApiUrl}set?target_temperature=${tempC}"));
+        .post(Uri.parse("${thermostatApiUrl}set?target_temperature=$tempC"));
   }
 
   Future<void> setMode(ThermostatMode mode) async {
@@ -120,7 +132,7 @@ class Thermostat {
         break;
     }
 
-    await http.post(Uri.parse("${thermostatApiUrl}set?mode=${urlMode}"));
+    await http.post(Uri.parse("${thermostatApiUrl}set?mode=$urlMode"));
   }
 
   Future<void> setFanSpeed(FanSpeed fanSpeed) async {
@@ -147,7 +159,7 @@ class Thermostat {
         break;
     }
 
-    await http.post(Uri.parse("${thermostatApiUrl}set?fan_mode=${urlSpeed}"));
+    await http.post(Uri.parse("${thermostatApiUrl}set?fan_mode=$urlSpeed"));
   }
 
   Future<void> sendNewSettings(ThermostatSettingsModel updatedSettings) async {
@@ -156,15 +168,22 @@ class Thermostat {
     }
 
     await updateMutex.protect(() async {
-      // Batch multiple button pushes into a set of single update commands
-      await Future.delayed(const Duration(seconds: 10));
+      try {
+        // Batch multiple button pushes into a set of single update commands
+        await Future.delayed(const Duration(seconds: 10));
 
-      await setTargetTemp(_currentSettings.setTemp);
-      //await setFanSpeed(_currentSettings.fanSpeed);
-      await setMode(_currentSettings.mode);
+        await setTargetTemp(_currentSettings.setTemp);
+        //await setFanSpeed(_currentSettings.fanSpeed);
+        await setMode(_currentSettings.mode);
 
-      await Future.delayed(const Duration(seconds: 2));
-      await retriveLatestSettings();
+        await Future.delayed(const Duration(seconds: 2));
+        await retriveLatestSettings();
+
+        _appLog.addLog("Update call succeeded");
+      } catch (e) {
+        _appLog.addLog("Update call failed");
+        _appLog.addLog(e.toString());
+      }
     });
   }
 }

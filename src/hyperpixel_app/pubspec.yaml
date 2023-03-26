@@ -42,6 +42,7 @@ dependencies:
   weather_icons: ^3.0.0
   window_manager: ^0.2.8
   mutex: ^3.0.1
+  circular_buffer: ^0.11.0
 
 dev_dependencies:
   flutter_test:
